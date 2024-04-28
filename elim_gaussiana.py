@@ -12,7 +12,6 @@ def elim_gaussiana(A):
     m=A.shape[0]
     n=A.shape[1]
     Ac = A.copy()
-    Ac2= A.copy()
     L= np.eye(m)
     if m!=n:
         print('Matriz no cuadrada')
@@ -23,30 +22,25 @@ def elim_gaussiana(A):
         print('Matriz no cuadrada')
         return
     else: 
-        for i in range (0, (n)): 
-            m=i 
-            l=1 
-            pivote= Ac[m][i] 
+        for i in range(0,n):
             Mi= np.zeros((n,n))
-            while m+l < n and pivote!=0:
-                c= Ac[m+l][i] 
-                if c <0 and pivote > 0:
-                    x= abs( c/pivote)
-                elif c>0 and pivote>0: 
-                    x= -abs(c/pivote)
-                elif c<0 and pivote<0:
-                    x= -abs(c/pivote)
-                else  :
-                    x= abs(c/pivote) 
-                if x!=0 :
+            pivote = A[i][i]
+            if pivote == 0:
+                for j in range(i + 1, n):
+                    c = A[j][i]
+                    if c != 0:
+                        print("no es posible realizar descomposicion LU sin intercambiar filas")
+                    else:
+                        continue
+            for j in range(i + 1, n):
+                c = A[j][i]
+                if c != 0: 
+                    x = -c / pivote
                     cant_op+=1
-                    Mi[m+l][i]= x
-                Ac[m+l]= Ac[m+l]+ x*Ac[m]
-                l+=1
+                    Mi[j][i]= x
+                    Ac[j]= Ac[j]+ x*Ac[i]
             L= L - Mi
-    
-    ## hasta aqui
-            
+    ## hasta aqui      
     L = L
     U = Ac
     return L, U, cant_op
@@ -66,9 +60,7 @@ def matrices_bn(n:int):
     return B
 
 
-matrices_bn(2)
-matrices_bn(3)
-matrices_bn(4)
+
 def probar_descomposicion (n):
     i=2
     res:list =[]
@@ -136,7 +128,7 @@ ax.set_xlim(0,100)
 
  
 def main():
-    n = 85
+    n = 7
     B = np.eye(n) - np.tril(np.ones((n,n)),-1) 
     B[:n,n-1] = 1
     print('Matriz B \n', B)
