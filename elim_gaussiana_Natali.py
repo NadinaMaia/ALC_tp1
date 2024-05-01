@@ -24,16 +24,16 @@ def elim_gaussiana(A):
     else: 
         for i in range(0,n):
             Mi= np.zeros((n,n))
-            pivote = A[i][i]
+            pivote = Ac[i][i]
             if pivote == 0:
                 for j in range(i + 1, n):
-                    c = A[j][i]
+                    c = Ac[j][i]
                     if c != 0:
                         print("no es posible realizar descomposicion LU sin intercambiar filas")
                     else:
                         continue
             for j in range(i + 1, n):
-                c = A[j][i]
+                c = Ac[j][i]
                 if c != 0: 
                     x = -c / pivote
                     cant_op+=1
