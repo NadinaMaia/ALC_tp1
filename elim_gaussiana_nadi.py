@@ -10,6 +10,7 @@ def elim_gaussiana(A):
     m=A.shape[0] #filas
     n=A.shape[1] #columnas
     Ac= A.copy() 
+    Ad = A.copy() 
     
     if m!=n:
         print('Matriz no cuadrada')
@@ -19,12 +20,12 @@ def elim_gaussiana(A):
     
     ## Aca calculo los valores de los multiplicadores y lo actualizo en A
     for j in range (n): #columnas
-        pivote = A[j,j]
+        pivote = Ad[j,j]
         for i in range(1, m): #filas
             if j < i:
-                k = calculo_k(A[i], pivote, j) #calculo k
+                k = calculo_k(Ad[i], pivote, j) #calculo k
                 if k != 0:
-                    A[i] = A[i] - k*A[j]
+                    Ad[i] = Ad[i] - k*Ad[j]
                     Ac[i][j] = k #agrego k 
                     cant_op += 1
                 else:
@@ -34,7 +35,7 @@ def elim_gaussiana(A):
     for j in range (n): #columnas
         for i in range(1, m): #filas
             if j >= i:
-                Ac[i][j] = A[i][j]
+                Ac[i][j] = Ad[i][j]
     
     ## hasta aqui
 
@@ -50,6 +51,29 @@ def calculo_k(fila_actual, divisor, iterador):
         multiplicador = fila_actual[iterador] / divisor
     return multiplicador
    
+def matrices_bn(n:int): 
+    n=n
+    B = np.eye(n) - np.tril(np.ones((n,n)),-1) 
+    B[:n,n-1] = 1
+
+    return B
+
+def probar_descomposicion (n):
+    i=2
+    res:list =[]
+    while i <=n:
+        A= matrices_bn(i)
+        L, U, cant_op = elim_gaussiana(A)
+        if np.allclose(np.linalg.norm(A - L@U, 1), 0):
+            res.append("SI")
+        else:
+            res.append("NO")
+      
+        i+=1
+    
+    return res
+resultados= probar_descomposicion(100)
+
 
 def main():
     n = 7
@@ -67,5 +91,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-    
+
