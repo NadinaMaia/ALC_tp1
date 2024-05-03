@@ -250,7 +250,7 @@ def graf_rankingP2(M, n):
     plt.title('Página Mejor Rankeada según el P utilizado')
     plt.colorbar(label='X')
     plt.show()  
-              
+    plt.grid(True)          
     #grafico que me muestre el porcentaje de veces que una pagina fue la mejor rankeada variando el P
 def ranking_P3(M, n):   
     P, mejores_paginas = rankings_segunP(M, n)
@@ -296,20 +296,76 @@ def tiempo_de_ejecucion_tamaño (n,p):
     tamaños=[]
     while i <=n:
         W= np.random.choice([0, 1], size=(i,i))
+        np.fill_diagonal(W, 0)
         tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
         tiempos.append(tiempo)
         tamaños.append(i)
         i+=1
-    return tiempos, tamaños
+    return tamaños, tiempos
 
 def tiempo_ejecucion_densidad (n,p):
     W=  np.zeros((n, n))
     tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
     tiempos= []
+    nodos=[]
+    conexiones = 0
     tiempos.append(tiempo)
+    nodos.append(conexiones)
     for i in range (0,n):
         for j in range (0,n):
-            W[i][j]=1
-            tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
-            tiempos.append(tiempo)
-    return tiempos
+            if i!=j:
+                W[i][j]=1
+                tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
+                tiempos.append(tiempo)
+                conexiones+=1
+                nodos.append(conexiones)
+    return tiempos, nodos
+
+def graf_tiempo_tamaño():
+    tamaño1, tiempo1= tiempo_de_ejecucion_tamaño(100, 0.5)
+    tamaño2, tiempo2= tiempo_de_ejecucion_tamaño(100, 0.25)
+# Crear el gráfico de dispersión con múltiples conjuntos de datos
+    plt.scatter(tamaño1,tiempo1, color='seagreen', label='p=0.5')
+    plt.scatter(tamaño2, tiempo2, color='darkseagreen', label='p=0.25')
+    plt.plot(tamaño1,tiempo1, color='darkgreen', linestyle='-')
+    plt.plot(tamaño2, tiempo2, color='forestgreen', linestyle='-')
+    
+    
+# Añadir etiquetas y leyenda
+    plt.xlabel('dimensiones del grafo ')
+    plt.ylabel('tiempo de ejecucion tardado [s]')
+    plt.title('Tiempo de ejecucion del calculo del rankingpage segun el tamaño del grafo')
+    plt.legend()
+   # Mostrar el gráfico
+    plt.grid(True)
+    plt.show()
+    
+graf_tiempo_tamaño()
+
+def graf_tiemo_densidad():
+    tiempo, nodos= tiempo_ejecucion_densidad (15,0.5)
+# Crear el gráfico de dispersión con múltiples conjuntos de datos
+    plt.scatter(nodos,tiempo, color='palevioletred', label='tamaño=15*15,p=0.5')
+# Añadir etiquetas y leyenda
+    plt.xlabel('conexiones dentro del grafo ')
+    plt.ylabel('tiempo de ejecucion tardado [s]')
+    plt.title('Tiempo de ejecucion del calculo del rankingpage segun las conexiones entre paginas')
+    plt.legend()
+   # Mostrar el gráfico
+    plt.grid(True)
+    plt.show()    
+    
+def graf_tiemo_densidad2():
+    tiempo4, nodos4= tiempo_ejecucion_densidad (50,0.5)
+    plt.scatter(nodos4, tiempo4, color='mediumvioletred', label='tamaño=50*50,p=0.5')
+# Añadir etiquetas y leyenda
+    plt.xlabel('conexiones dentro del grafo ')
+    plt.ylabel('tiempo de ejecucion tardado [s]')
+    plt.title('Tiempo de ejecucion del calculo del rankingpage segun las conexiones entre paginas')
+    plt.legend()
+   # Mostrar el gráfico
+    plt.grid(True)
+    plt.show() 
+
+      
+
