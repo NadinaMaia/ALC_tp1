@@ -265,7 +265,7 @@ def ranking_P3(M,test):
         if porcentaje != 0:  # Excluir porcentajes de cero
             porcentajes.append(porcentaje)
             p.append(pagina)
-    paleta = "Pastel1"
+    paleta = "spring"
     # Crear el gráfico de torta
     plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
     plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
@@ -360,5 +360,113 @@ def graf_tiemo_densidad2():
     plt.grid(True)
     plt.show() 
 
-      
+# =============================================================================
+# FUNCIONES PRINCIPALES PARA ANALISIS TEST DOS ESTRELLAS
+# =============================================================================      
 
+def test_dos_estrellas ():
+    W= leer_archivo(carpeta + "test_dosestrellas.txt")
+    n= W.shape[0]
+    contador=0
+    for j in range (1,n):
+        W[0][j]=1
+        contador+=1
+        ranking, scores= calcularRanking(W,0.5)
+        maximoScore= np.max(scores)
+        if scores[0]== maximoScore:
+            print("se agregaron "+ str(contador)+" conexiones")
+            return contador, W
+        else:
+            continue
+
+def comparacion_DS():
+    W= leer_archivo(carpeta + "test_dosestrellas.txt")
+    contador, W2= test_dos_estrellas()
+    rnk, scoresW = calcularRanking (W, 0.5)
+    rank, scoresW2= calcularRanking (W2, 0.5)
+    paginas = [1,2,3,4,5,6,7,8,9,10,11,12]
+    plt.figure(figsize=(10, 6))
+    plt.scatter(paginas, scoresW, s=100, color='hotpink')
+    plt.scatter(paginas, scoresW2, s=100,  color='darkseagreen')
+    plt.xlabel('Paginas del test dos estrellas')
+    plt.ylabel('scores de las paguinas del test dos estrellas')
+    plt.xticks(paginas)
+    plt.title('Comparacion de los puntajes obtenidos con el test Dos estrellas original y agregando 9 coonexiones a la pagina 1')
+    plt.grid(True)
+    plt.show()
+    
+    
+# =============================================================================
+# FUNCIONES PRINCIPALES PARA ANALISIS TEST PROPIOS
+# =============================================================================      
+#ninguno conectado
+ninguno_conectado= np.zeros((15, 15))
+rankingNingunoConectados, scoresNingunoConectados= calcularRanking (ninguno_conectado, 0.5)
+
+ranking_P3(ninguno_conectado, "ninguno conectado")
+graf_rankingP2(ninguno_conectado, "ninguno conectado")
+Graf_MejoresPaginas_segunP (ninguno_conectado, "ninguno conectado")
+
+Graf_scores(ninguno_conectado, "ninguno conectado")    
+
+#todos conectados 1
+#la pagina i solo es linkeada y linkea a la pagina j
+import random
+
+
+def duplas(n):
+    res=[]
+    valores= list(range(0,n))
+    s= len(valores)
+    while s >0:
+        n= random.choice(valores)
+        valores.remove(n)
+        m= random.choice(valores)
+        valores.remove(m)
+        par=[n,m]
+        res.append(par)
+        s= len(valores)
+    return res
+        
+
+def todosConectados1(n):
+     W = np.zeros((n, n))
+     conexiones = duplas(n)
+     for conexion in conexiones:
+         i= conexion[0]
+         j= conexion[1]
+         W[i][j]=1
+         W[j][i]= 1
+     return W
+
+todos_conectados1 = todosConectados1(20)        
+ranking_P3(todos_conectados1, "todos conectados 1")
+graf_rankingP2(todos_conectados1, "todos conectados 1")
+Graf_MejoresPaginas_segunP(todos_conectados1, "todos conectados 1")
+Graf_scores(todos_conectados1, "todos conectados 1")
+
+#coparacion entre ninguno conectado y el otro ejemplo de todos conectados 
+def comparacion_tiempo_ejecucion(n):
+    tiempos1=[]
+    tamaños=[]
+    tiempos2=[]
+    for i in range (2,n+1):
+        W = np.zeros((i, i))
+        W1 = todosConectados1(i)
+        tiempo1= tiempo_de_ejecucion(calcularRanking, W, 0.5)
+        tiempo2= tiempo_de_ejecucion(calcularRanking, W1, 0.5)
+        tiempos1.append(tiempo1)
+        tamaños.append(i)
+        tiempos2.append(tiempo2)
+    plt.scatter(tamaños,tiempos1, color='seagreen', label='ninguno conectado')
+    plt.scatter(tamaños, tiempos2, color='darkseagreen', label='todos conectados 1')
+    plt.plot(tamaños,tiempos1, color='darkgreen', linestyle='-')
+    plt.plot(tamaños, tiempos2, color='forestgreen', linestyle='-')
+    # Añadir etiquetas y leyenda
+    plt.xlabel('dimensiones del grafo ')
+    plt.ylabel('tiempo de ejecucion tardado [s]')
+    plt.title('Tiempo de ejecucion del calculo del rankingpage segun el tamaño del grafo')
+    plt.legend()
+    # Mostrar el gráfico
+    plt.grid(True)
+    plt.show()
