@@ -181,33 +181,31 @@ print(scr)
 # FUNCIONES PRINCIPALES PARA ANALISIS CUALITATIVO
 # =============================================================================
 
-def rankings_segunP(M, n):
+def rankings_segunP(M):
     P = [] #guardo los distintos P
     mejores_paginas = [] #guardo las paginas mejores ranqueadas
-    for i in range(1, n+1):
-        p = 1 / i
+    p= 0.95
+    while p >0:
         P.append(p)
         mejor_pagina = [] #guardo las paginas mejores rankeadas con un P por si hay empate
         ranking, scores = calcularRanking(M, p)
         maxScore = np.max(scores)
-        
         for j in range(len(scores)):
             score = scores[j]
             if score == maxScore:
                 m = j 
                 mejor_pagina.append(m)
-                
         mejores_paginas.append(mejor_pagina)
-
+        p= p-0.05
     return P, mejores_paginas
 
     
-def Graf_MejoresPaginas_segunP (M, n): 
+def Graf_MejoresPaginas_segunP (M, test): 
     d = M.shape[0]
     paginas = list(range(d))
     # Datos
     Altura = []
-    P, mejores_paginas = rankings_segunP(M, n)
+    P, mejores_paginas = rankings_segunP(M)
     for pagina in paginas:
         contador = 0
         for m in mejores_paginas:
@@ -221,7 +219,7 @@ def Graf_MejoresPaginas_segunP (M, n):
     # Agregar etiquetas y título
     plt.xlabel('Cantidad de veces que obtuvieron el mejor Score')
     plt.ylabel('Páginas')
-    plt.title('Cantidad de veces que una página obtuvo el mejor score variando el p')
+    plt.title('Cantidad de veces que una página obtuvo el mejor score variando el p en el test '+ test)
     # Establecer límites de los ejes
     plt.xlim(0, max(Altura) + 1)  
     plt.ylim(-0.5, d - 0.5) 
@@ -230,10 +228,10 @@ def Graf_MejoresPaginas_segunP (M, n):
   
 
     
-def graf_rankingP2(M, n):  
+def graf_rankingP2(M, test):  
     # Graficar quién fue la página mejor rankeada para cada p
-    P, mejores_paginas = rankings_segunP(M, n)
-    
+    P, mejores_paginas = rankings_segunP(M)
+    ylim= M.shape[0]
     # Inicializar listas para almacenar datos porsi hay empates 
     y1 = []
     x = []
@@ -241,19 +239,20 @@ def graf_rankingP2(M, n):
     for m, paginas in enumerate(mejores_paginas):
         for pagina in paginas:
             y1.append(pagina)
-            x.append(P[m])
-    
+            x.append(P[m]) 
+    plt.figure(figsize=(10, 6))
     plt.scatter(x, y1, s=100, c=x, cmap='spring')
-    
     plt.xlabel('P')
     plt.ylabel('Página Mejor Rankeada')
-    plt.title('Página Mejor Rankeada según el P utilizado')
-    plt.colorbar(label='X')
+    plt.xticks(P)
+    plt.yticks(range(0, ylim, 1)) 
+    plt.title('Página Mejor Rankeada según el P utilizado  el test ' + test)
+    plt.grid(True)
     plt.show()  
-    plt.grid(True)          
+              
     #grafico que me muestre el porcentaje de veces que una pagina fue la mejor rankeada variando el P
-def ranking_P3(M, n):   
-    P, mejores_paginas = rankings_segunP(M, n)
+def ranking_P3(M,test):
+    P, mejores_paginas = rankings_segunP(M)
     paginas = list(range(0, M.shape[0])) 
     porcentajes=[]
     p=[]
@@ -269,16 +268,10 @@ def ranking_P3(M, n):
     paleta = "Pastel1"
     # Crear el gráfico de torta
     plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
-    plt.title('Porcentaje de veces que una página fue mejor rankeada') 
+    plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
+    plt.title('Porcentaje de veces que una página fue mejor rankeada con el test ' + test) 
     plt.show()
 
-def medir_tiempo(f, M, n):
-    inicio = time.time()
-    resultado = f (M,n)
-    fin = time.time()
-    tiempo_transcurrido = fin - inicio
-    print(f"Tiempo de ejecución de {f.__name__}: {tiempo_transcurrido} segundos")
-    return resultado
 
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUANTITATIVO
