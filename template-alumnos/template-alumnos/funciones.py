@@ -199,31 +199,6 @@ def Graf_scores(W, nombre:str):
     plt.grid(True)
     plt.show()  
     
-def Graf_MejoresPaginas_segunP (M, test): 
-    d = M.shape[0]
-    paginas = list(range(d))
-    # Datos
-    Altura = []
-    P, mejores_paginas = rankings_segunP(M)
-    for pagina in paginas:
-        contador = 0
-        for m in mejores_paginas:
-            if pagina in m:
-                contador += 1
-        Altura.append(contador)
-    print(Altura)
-    paleta = "Pastel1"
-    # Crear el gráfico de barras horizontales
-    plt.barh(paginas, Altura, color=plt.cm.get_cmap(paleta)(range(len(paginas))), edgecolor='black')
-    # Agregar etiquetas y título
-    plt.xlabel('Cantidad de veces que obtuvieron el mejor Score')
-    plt.ylabel('Páginas')
-    plt.title('Cantidad de veces que una página obtuvo el mejor score variando el p en el test '+ test)
-    # Establecer límites de los ejes
-    plt.xlim(0, max(Altura) + 1)  
-    plt.ylim(-0.5, d - 0.5) 
-    # Mostrar el gráfico
-    plt.show()
   
 
     
@@ -335,7 +310,14 @@ def graf_tiempo_tamaño():
     plt.scatter(tamaño2, tiempo2, color='darkseagreen', label='p=0.25')
     plt.plot(tamaño1,tiempo1, color='darkgreen', linestyle='-')
     plt.plot(tamaño2, tiempo2, color='forestgreen', linestyle='-')
-  
+# Añadir etiquetas y leyenda
+    plt.xlabel('dimensiones del grafo ')
+    plt.ylabel('tiempo de ejecucion tardado [s]')
+    plt.title('Tiempo de ejecucion del calculo del rankingpage segun el tamaño del grafo')
+    plt.legend()
+   # Mostrar el gráfico
+    plt.grid(True)
+    plt.show()  
 def graf_tiempo_tamaño2():
     tamaño1, tiempo1= tiempo_ejecucion_tamaño_2(100,0.5)
     tamaño2, tiempo2= tiempo_ejecucion_tamaño_2(100,0.25)
@@ -356,7 +338,7 @@ def graf_tiempo_tamaño2():
     
 graf_tiempo_tamaño()
 
-def graf_tiemo_densidad():
+def graf_tiempo_densidad():
     tiempo, nodos= tiempo_ejecucion_densidad (15,0.5)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
     plt.scatter(nodos,tiempo, color='palevioletred', label='tamaño=15*15,p=0.5')
@@ -369,7 +351,7 @@ def graf_tiemo_densidad():
     plt.grid(True)
     plt.show()    
     
-def graf_tiemo_densidad2():
+def graf_tiempo_densidad2():
     tiempo4, nodos4= tiempo_ejecucion_densidad (50,0.5)
     plt.scatter(nodos4, tiempo4, color='mediumvioletred', label='tamaño=50*50,p=0.5')
 # Añadir etiquetas y leyenda
@@ -422,53 +404,16 @@ def comparacion_DS():
 # =============================================================================      
 #ninguno conectado
 ninguno_conectado= np.zeros((20, 20))
-rankingNingunoConectados, scoresNingunoConectados= calcularRanking (ninguno_conectado, 0.5)
-
-ranking_P3(ninguno_conectado, "ninguno conectado")
-graf_rankingP2(ninguno_conectado, "ninguno conectado")
-Graf_MejoresPaginas_segunP (ninguno_conectado, "ninguno conectado")
-dibujarGrafo(ninguno_conectado)
-Graf_scores(ninguno_conectado, "ninguno conectado")    
-
-#todos conectados 1
-#la pagina i solo es linkeada y linkea a la pagina j
-import random
 
 
-def duplas(n):
-    res=[]
-    valores= list(range(0,n))
-    s= len(valores)
-    while s >0:
-        n= random.choice(valores)
-        valores.remove(n)
-        m= random.choice(valores)
-        valores.remove(m)
-        par=[n,m]
-        res.append(par)
-        s= len(valores)
-    return res
-        
+#todos conectados 
 
-def todosConectados1(n):
-     W = np.zeros((n, n))
-     conexiones = duplas(n)
-     for conexion in conexiones:
-         i= conexion[0]
-         j= conexion[1]
-         W[i][j]=1
-         W[j][i]= 1
-     return W
 
-todos_conectados1 = todosConectados1(20)        
-ranking_P3(todos_conectados1, "todos conectados 1")
-graf_rankingP2(todos_conectados1, "todos conectados 1")
-Graf_MejoresPaginas_segunP(todos_conectados1, "todos conectados 1")
-Graf_scores(todos_conectados1, "todos conectados 1")
-dibujarGrafo(todos_conectados1)
-
+todos_conectados = np.ones((20, 20))
+todos_conectados= np.fill_diagonal(todos_conectados, 0)
+       
 #todos conectados 2
-def matriz_todos_conectados2():
+def matriz_t2():
     W = np.zeros((20, 20))
     for j in range (0, 20):
         if j!=5: 
@@ -479,13 +424,7 @@ def matriz_todos_conectados2():
     return W
 
 
-td2= matriz_todos_conectados2()
-dibujarGrafo(td2)      
-ranking_P3(td2, "todos conectados 2")
-graf_rankingP2(td2, "todos conectados 2")
-Graf_MejoresPaginas_segunP(td2, "todos conectados 2")
-Graf_scores(td2, "todos conectados 2")
-dibujarGrafo(td2)
+
 #coparacion entre ninguno conectado y el otro ejemplo de todos conectados 
 def comparacion_tiempo_ejecucion(W, M, N): 
     tiempo1 = tiempo_de_ejecucion (calcularRanking, W, 0.5)
@@ -503,7 +442,7 @@ def comparacion_tiempo_ejecucion(W, M, N):
     plt.grid(True)
     plt.show()
     
-comparacion_tiempo_ejecucion(ninguno_conectado, todos_conectados1, td2)
+comparacion_tiempo_ejecucion(ninguno_conectado, todos_conectados, tp)
 
 A = calculo_A(DS, 0.5)
 p = np.linspace(0, 1, 10)
