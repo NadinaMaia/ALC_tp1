@@ -1,0 +1,108 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+	
+	\begin{align*}
+		\text{Queremos probar que la matriz planteada en la matriz A coincide con la ecuación (1)} 
+	\end{align*}
+    \begin{align*}
+		[a]_{i} &= \begin{cases}
+			p*\dfrac{1-p}{n} & \text{si } c_{j} \neq 0 \\
+			\dfrac{1}{n} & \text{si } c_{j} = 0
+		\end{cases} \notag \\
+	     \\
+		A &= pWD + eZ^t  \text{(1)}
+	\end{align*}
+	
+	\begin{align*}
+		pWD &= p \cdot \begin{bmatrix}
+			0 & w_{12} & \cdots & w_{1n} \\
+			w_{21}& 0 & \ddots &  w_{2n} \\
+			\vdots & \vdots &\ddots &\vdots \\
+			w_{n1} & w_{n2} & \cdots & 0
+		\end{bmatrix} \cdot \begin{bmatrix}
+			1/c_{1}& 0 & \cdots & 0 \\
+			0& 1/c_{2} & \cdots &  0\\
+			\vdots & \vdots &\ddots &\vdots \\
+			0 & 0 &\cdots & 1/c_{n}
+		\end{bmatrix} =\\
+	\end{align*}
+	
+	\begin{align*}
+		\begin{bmatrix}
+			0 & p*w_{12}/c_{2} & \cdots &p*w_{1n}/c_{n}\\
+			p*w_{21}/c_{1}& 0 & \ddots &  p*w_{2n}/c_{n} \\
+			\vdots & \vdots &\ddots &\vdots \\
+			p*w_{n1}/c_{1} & w_{n2}/c_{2} & \cdots & 0
+		\end{bmatrix}	
+	\end{align*}
+	\begin{align*}
+		\text{donde }  [pWD]_{ij} &= \begin{cases}
+			p*\dfrac{w_{ij}}{c_{j}} & \text{si } c_{j} \neq 0 \\
+			0 & \text{si } c_{j} = 0
+		\end{cases}
+	\end{align*}
+	\begin{align*}
+		eZ^t &=  \begin{bmatrix}
+			1\\
+			\vdots \\
+			1
+		\end{bmatrix} \cdot \begin{bmatrix}
+			z_{1}  & \cdots & z_{n}\\
+		\end{bmatrix} =  
+		\begin{bmatrix}
+			z_{1} & \cdots &z_{n}\\
+			z_{1} & \cdots &  z_{n} \\
+			\vdots &\cdots &\vdots \\
+			z_{1} & \cdots & z_{n} 
+		\end{bmatrix}
+	\end{align*}	
+	
+	\begin{align*}
+		\text{Entonces... }\\ 
+		pWD + eZ^t=
+	\end{align*}
+	\begin{align*}
+		\begin{bmatrix}
+			0 & p*w_{12}/c_{2} & \cdots &p*w_{1n}/c_{n}\\
+			p*w_{21}/c_{1}& 0 & \ddots &  p*w_{2n}/c_{n} \\
+			\vdots & \vdots &\ddots &\vdots \\
+			p*w_{n1}/c_{1} & w_{n2}/c_{2} & \cdots & 0
+		\end{bmatrix} +  
+		\begin{bmatrix}
+			z_{1} & \cdots &z_{n}\\
+			z_{1} & \cdots &  z_{n} \\
+			\vdots &\cdots &\vdots \\
+			z_{1} & \cdots & z_{n} 
+		\end{bmatrix}	=
+\end{align*}
+\begin{align*}
+ 	\begin{bmatrix}
+	z_{1} & \cdots &p*w_{1n}/dfrac{p*w_{1n}}{c_{n}} +z_{n}\\
+	\vdots &\cdots &\vdots \\
+	\dfrac{p*w_{n1}}{c_{1}}+z_{1} & \cdots & z_{n} \end{bmatrix}
+ \end{align*} 
+\begin{align*}
+	\text{donde }  [Z]_{i} = \begin{cases}
+		p*\dfrac{1-p}{n} & \text{si } c_{j} \neq 0 \\
+		{1}{n} & \text{si } c_{j} = 0\\
+\end{cases} \end{align*} 
+
+\begin{align*}
+\text{Con esto podemos ver que la matriz resultante corresponde a }\\
+\end{align*}
+\begin{align*}
+[pWD +eZ^t]_{ij} &= \begin{cases}
+	p*\dfrac{1-p}{n} & \text{si } c_{j} \neq 0 \\
+	\dfrac{1}{n} & \text{si } c_{j} = 0
+\end{cases}\\
+\end{align*}
+\begin{align*}
+\text{Finalmente, la matriz obtenida mediante la ecuación (1) coincide con la matriz A. }
+\end{align*}
+\end{document}
+
+
+
+
