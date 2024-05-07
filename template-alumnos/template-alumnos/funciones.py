@@ -115,13 +115,13 @@ def calculo_k(fila_actual, divisor, iterador):
         multiplicador = fila_actual[iterador] / divisor
     return multiplicador
    
+
+from scipy.stats import rankdata
+
+
 def ranking(score):
-    sorted_score = sorted(scr)
-    rnk = [sorted_score.index(x) + 1 for x in scr]
-    res = []
-    for elemento in rnk:
-        if elemento in res:
-            res.append(elemento + 1)
+    rnk = sorted(score) 
+    return rnk
             
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA EL CALCULO DE RANKING
@@ -140,7 +140,7 @@ def calcularRanking(M, p):
     x = scipy.linalg.solve_triangular(U,y)
     norma = scipy.linalg.norm(x,1)
     scr = x/norma
-    rnk = [sorted_score.index(x) + 1 for x in scr]
+    rnk = ranking(scr)
     #
     return rnk, scr
 
@@ -152,34 +152,22 @@ def obtenerMaximoRankingScore(M, p):
     
     return output
 
-#ARCHIVOS DE ENTRADA
-archivo_test = './tests/test_dosestrellas.txt'
-    
-#CARGA DE ARCHIVO EN GRAFO
-W = leer_archivo(archivo_test)
-
-dibujarGrafo(W, print_ejes=False)
-# defino la probabilidad de salto de continuar los links de la pagina actual
-p = 0.5
-# Realizo el test unitario para el calculo del mayor score, que pruebe que el codigo funciona correctamente.
-print('*'*50)
-print('Test unitario 1')
-try:
-    compara = obtenerMaximoRankingScore(W, p)
-    assert(np.isclose(compara, 0.1811, atol= 0.0001))
-except:
-    print('OUCH!! - No paso el test unitario')
-else:
-    print('BIEN! - Paso correctamente el test unitario')
-print('*'*50)
-
-rnk, scr = calcularRanking(W, p)
-print(rnk)
-print(scr)
 
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUALITATIVO
 # =============================================================================
+carpeta = "/home/oem/Desktop/uni/alc/tests/"
+I= leer_archivo(carpeta + "instagram_famosos_grafo.txt") 
+M= leer_archivo(carpeta + "mathworld_grafo.txt") 
+DS= leer_archivo(carpeta + "test_dosestrellas.txt") 
+A= leer_archivo(carpeta+ "test_aleatorio.txt")
+TS= leer_archivo(carpeta + "test_30_segundos.txt")
+
+rnk,score= calcularRanking(DS, 0.5)
+
+(I, "instagram")
+(M, "mathworld")
+(A, "aleatorio")
 
 def rankings_segunP(M):
     P = [] #guardo los distintos P
@@ -199,6 +187,17 @@ def rankings_segunP(M):
         p= p-0.05
     return P, mejores_paginas
 
+def Graf_scores(W, nombre:str):
+    rnk, scores= calcularRanking(W, 0.5)
+    pagina= list(range(len(scores)))
+    plt.figure(figsize=(10, 6))
+    plt.scatter(pagina, scores, s=100, c=pagina, cmap='spring')
+    plt.xlabel('paginas')
+    plt.ylabel('puntaje')
+    plt.xticks(pagina) 
+    plt.title('puntaje de cada pagina del test ' + nombre)
+    plt.grid(True)
+    plt.show()  
     
 def Graf_MejoresPaginas_segunP (M, test): 
     d = M.shape[0]
@@ -278,7 +277,7 @@ def ranking_P3(M,test):
 # =============================================================================
 def tiempo_de_ejecucion(f, W, p):
     inicio = time.time()
-    resultado = f(W,p)
+    f(W,p)
     fin = time.time()
     tiempo_transcurrido = fin - inicio
     return tiempo_transcurrido
@@ -400,13 +399,13 @@ def comparacion_DS():
 # FUNCIONES PRINCIPALES PARA ANALISIS TEST PROPIOS
 # =============================================================================      
 #ninguno conectado
-ninguno_conectado= np.zeros((15, 15))
+ninguno_conectado= np.zeros((20, 20))
 rankingNingunoConectados, scoresNingunoConectados= calcularRanking (ninguno_conectado, 0.5)
 
 ranking_P3(ninguno_conectado, "ninguno conectado")
 graf_rankingP2(ninguno_conectado, "ninguno conectado")
 Graf_MejoresPaginas_segunP (ninguno_conectado, "ninguno conectado")
-
+dibujarGrafo(ninguno_conectado)
 Graf_scores(ninguno_conectado, "ninguno conectado")    
 
 #todos conectados 1
@@ -444,29 +443,69 @@ ranking_P3(todos_conectados1, "todos conectados 1")
 graf_rankingP2(todos_conectados1, "todos conectados 1")
 Graf_MejoresPaginas_segunP(todos_conectados1, "todos conectados 1")
 Graf_scores(todos_conectados1, "todos conectados 1")
+dibujarGrafo(todos_conectados1)
 
+#todos conectados 2
+def matriz_todos_conectados2():
+    W = np.zeros((20, 20))
+    for j in range (0, 20):
+        if j!=5: 
+            W[5][j]= 1
+    for i in range(0,20):
+        if i !=5:
+            W[i][5]=1
+    return W
+
+
+td2= matriz_todos_conectados2()
+dibujarGrafo(td2)      
+ranking_P3(td2, "todos conectados 2")
+graf_rankingP2(td2, "todos conectados 2")
+Graf_MejoresPaginas_segunP(td2, "todos conectados 2")
+Graf_scores(td2, "todos conectados 2")
+dibujarGrafo(td2)
 #coparacion entre ninguno conectado y el otro ejemplo de todos conectados 
-def comparacion_tiempo_ejecucion(n):
-    tiempos1=[]
-    tamaños=[]
-    tiempos2=[]
-    for i in range (2,n+1):
-        W = np.zeros((i, i))
-        W1 = todosConectados1(i)
-        tiempo1= tiempo_de_ejecucion(calcularRanking, W, 0.5)
-        tiempo2= tiempo_de_ejecucion(calcularRanking, W1, 0.5)
-        tiempos1.append(tiempo1)
-        tamaños.append(i)
-        tiempos2.append(tiempo2)
-    plt.scatter(tamaños,tiempos1, color='seagreen', label='ninguno conectado')
-    plt.scatter(tamaños, tiempos2, color='darkseagreen', label='todos conectados 1')
-    plt.plot(tamaños,tiempos1, color='darkgreen', linestyle='-')
-    plt.plot(tamaños, tiempos2, color='forestgreen', linestyle='-')
+def comparacion_tiempo_ejecucion(W, M, N): 
+    tiempo1 = tiempo_de_ejecucion (calcularRanking, W, 0.5)
+    tiempo2= tiempo_de_ejecucion (calcularRanking, M, 0.5)
+    tiempo3= tiempo_de_ejecucion (calcularRanking, N, 0.5)
+    tiempos=[tiempo1, tiempo2, tiempo3]
+    test= ["ninguno conectado", "todos conectados", "todos conectados 2"]
+    plt.scatter(test, tiempos, color='darkseagreen', label='tiempo de ejecucion tests')
     # Añadir etiquetas y leyenda
-    plt.xlabel('dimensiones del grafo ')
+    plt.xlabel('tests ejecutaods')
     plt.ylabel('tiempo de ejecucion tardado [s]')
-    plt.title('Tiempo de ejecucion del calculo del rankingpage segun el tamaño del grafo')
+    plt.title('Tiempo de ejecucion del calculo del para los diferentes test')
     plt.legend()
     # Mostrar el gráfico
     plt.grid(True)
     plt.show()
+    
+comparacion_tiempo_ejecucion(ninguno_conectado, todos_conectados1, td2)
+
+A = calculo_A(DS, 0.5)
+p = np.linspace(0, 1, 10)
+print(p)
+def experimento_cond(W):
+## Calculo los valores de la condicion
+    cond = []
+    ps=[]
+    p= 0.95
+    while p >0:
+        matriz = calculo_A(W, p)
+        res = np.linalg.cond(matriz)
+        cond.append(res)
+        ps.append(p)
+        p-=0.05
+## Armo el grafico
+    plt.plot(ps, cond) ##(valores de x, valores de y)
+    
+    # Etiquetar los ejes
+    plt.xlabel('Valor de p')
+    plt.ylabel('Valores obtenidos')
+    
+    # Mostrar el gráfico
+    plt.show()
+
+
+experimento_cond(DS)
