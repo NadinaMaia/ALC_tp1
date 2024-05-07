@@ -335,7 +335,15 @@ def graf_tiempo_tamaño():
     plt.scatter(tamaño2, tiempo2, color='darkseagreen', label='p=0.25')
     plt.plot(tamaño1,tiempo1, color='darkgreen', linestyle='-')
     plt.plot(tamaño2, tiempo2, color='forestgreen', linestyle='-')
-    
+  
+def graf_tiempo_tamaño2():
+    tamaño1, tiempo1= tiempo_ejecucion_tamaño_2(100,0.5)
+    tamaño2, tiempo2= tiempo_ejecucion_tamaño_2(100,0.25)
+# Crear el gráfico de dispersión con múltiples conjuntos de datos
+    plt.scatter(tamaño1,tiempo1, color='seagreen', label='p=0.5')
+    plt.scatter(tamaño2, tiempo2, color='darkseagreen', label='p=0.25')
+    plt.plot(tamaño1,tiempo1, color='darkgreen', linestyle='-')
+    plt.plot(tamaño2, tiempo2, color='forestgreen', linestyle='-')
     
 # Añadir etiquetas y leyenda
     plt.xlabel('dimensiones del grafo ')
