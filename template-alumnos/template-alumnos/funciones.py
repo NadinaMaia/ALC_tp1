@@ -114,14 +114,7 @@ def calculo_k(fila_actual, divisor, iterador):
         multiplicador = fila_actual[iterador] / divisor
     return multiplicador
    
-def ranking(score):
-    sorted_score = sorted(scr)
-    rnk = [sorted_score.index(x) + 1 for x in scr]
-    res = []
-    for elemento in rnk:
-        if elemento in res:
-            res.append(elemento + 1)
-            
+
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA EL CALCULO DE RANKING
 # =============================================================================
@@ -139,7 +132,7 @@ def calcularRanking(M, p):
     x = scipy.linalg.solve_triangular(U,y)
     norma = scipy.linalg.norm(x,1)
     scr = x/norma
-    rnk = [sorted_score.index(x) + 1 for x in scr]
+    rnk = sorted(scr)
     #
     return rnk, scr
 
@@ -152,7 +145,7 @@ def obtenerMaximoRankingScore(M, p):
     return output
 
 #ARCHIVOS DE ENTRADA
-archivo_test = './tests/test_dosestrellas.txt'
+archivo_test = './tests/test_aleatorio.txt'
     
 #CARGA DE ARCHIVO EN GRAFO
 W = leer_archivo(archivo_test)
