@@ -295,6 +295,20 @@ def tiempo_de_ejecucion_tamaño (n,p):
         i+=1
     return tamaños, tiempos
 
+def tiempo_ejecucion_tamaño_2 (n,p):
+    i=2
+    tiempos=[]
+    tamaños=[]
+    while i <=n:
+        W= np.zeros((i, i))
+        W[1][0]=1
+        W[0][1]=1
+        tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
+        tiempos.append(tiempo)
+        tamaños.append(i)
+        i+=1
+    return tamaños, tiempos
+
 def tiempo_ejecucion_densidad (n,p):
     W=  np.zeros((n, n))
     tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
