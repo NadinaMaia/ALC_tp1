@@ -409,8 +409,13 @@ ninguno_conectado= np.zeros((20, 20))
 #todos conectados 
 
 
-todos_conectados = np.ones((20, 20))
-todos_conectados= np.fill_diagonal(todos_conectados, 0)
+def todos_conectados ():
+    W = np.zeros((20, 20))
+    for j in range (0, 20):
+         for i in range(0,20):
+             if i !=j:
+                 W[i][j]=1
+    return W
        
 #todos conectados 2
 def matriz_t2():
