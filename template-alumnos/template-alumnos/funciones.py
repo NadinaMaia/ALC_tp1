@@ -36,11 +36,13 @@ def leer_archivo(input_file_path):
 # =============================================================================
 # IMPORTAMOS LOS ARCHIVOS
 # =============================================================================
-I= leer_archivo("/test/" + "instagram_famosos_grafo.txt") 
-M= leer_archivo("/test/"  + "mathworld_grafo.txt") 
-DS= leer_archivo("/test/"  + "test_dosestrellas.txt") 
-A= leer_archivo("/test/" + "test_aleatorio.txt")
-TS= leer_archivo("/test/"  + "test_30_segundos.txt")
+carpeta = "/home/oem/Descargas/template-alumnos/template-alumnos/tests"
+I= leer_archivo(carpeta + "instagram_famosos_grafo.txt") 
+M= leer_archivo(carpeta + "mathworld_grafo.txt") 
+DS= leer_archivo(carpeta + "test_dosestrellas.txt") 
+A= leer_archivo(carpeta+ "test_aleatorio.txt")
+TS= leer_archivo(carpeta + "test_30_segundos.txt")
+
 # =============================================================================
 # FUNCIONES PARA DIBUJAR GRAFO
 # =============================================================================
