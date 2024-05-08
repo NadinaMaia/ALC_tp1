@@ -423,9 +423,9 @@ def matriz_t2():
     for j in range (0, 20):
         if j!=5: 
             W[5][j]= 1
-    for i in range(0,20):
-        if i !=5:
-            W[i][5]=1
+    W[15][5]=1
+    W[15][20]=1
+    W[15][10]=1
     return W
 
 
