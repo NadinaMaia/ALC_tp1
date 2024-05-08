@@ -467,9 +467,9 @@ def todos_conectados ():
 def matriz_t2():
     W = np.zeros((20, 20))
     for j in range (0, 20):
-        if j!=5: 
+        if j!=5 and j!=16 and j!=10: 
             W[5][j]= 1
-        if j!= 7:
+        if j!= 7 and j!=16 and j!=10:
             W[7][j]=1
     W[15][5]=1
     W[15][7]=1
@@ -477,7 +477,7 @@ def matriz_t2():
     W[15][10]=1
     return W
 
-
+m=  matriz_t2()
 
 #coparacion entre ninguno conectado y el otro ejemplo de todos conectados 
 def comparacion_tiempo_ejecucion(W, M, N): 
