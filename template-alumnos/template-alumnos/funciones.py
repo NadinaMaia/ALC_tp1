@@ -264,7 +264,7 @@ def ranking_P3(M,test):
         if porcentaje != 0:  # Excluir porcentajes de cero
             porcentajes.append(porcentaje)
             p.append(pagina)
-    paleta = "spring"
+    paleta = "Pastel1"
     # Crear el gráfico de torta
     plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
     plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
