@@ -36,7 +36,7 @@ def leer_archivo(input_file_path):
 # =============================================================================
 # IMPORTAMOS LOS ARCHIVOS
 # =============================================================================
-carpeta = "/home/oem/Descargas/template-alumnos/template-alumnos/tests"
+carpeta = "/home/oem/Descargas/template-alumnos/template-alumnos/tests/"
 I= leer_archivo(carpeta + "instagram_famosos_grafo.txt") 
 M= leer_archivo(carpeta + "mathworld_grafo.txt") 
 DS= leer_archivo(carpeta + "test_dosestrellas.txt") 
