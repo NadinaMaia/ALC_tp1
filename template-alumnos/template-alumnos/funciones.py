@@ -7,7 +7,6 @@ autores: Natali Biasoni, Nadina Soler
 descripcion: En este archivo se encuentran las funciones para 
                 el TP1 de ALC dividido en funciones.
 """
-
 import numpy as np
 import networkx as nx
 import scipy
@@ -101,9 +100,7 @@ def elim_gaussiana(A):
     if m!=n:
         print('Matriz no cuadrada')
         return 
-    
-    ## desde aqui -- CODIGO A COMPLETAR
-    
+
     ## Aca calculo los valores de los multiplicadores y lo actualizo en A
     for j in range (n): #columnas
         pivote = Ad[j,j]
@@ -122,10 +119,7 @@ def elim_gaussiana(A):
         for i in range(1, m): #filas
             if j >= i:
                 Ac[i][j] = Ad[i][j]
-    
-    ## hasta aqui
-
-      
+     
     L = np.tril(Ac,-1) + np.eye(A.shape[0]) 
     U = np.triu(Ac)
     return L, U, cant_op
@@ -137,7 +131,6 @@ def calculo_k(fila_actual, divisor, iterador):
         multiplicador = fila_actual[iterador] / divisor
     return multiplicador
    
-
 def ranking(score):
     rnk = sorted(score) 
     return rnk
@@ -171,13 +164,9 @@ def obtenerMaximoRankingScore(M, p):
     
     return output
 
-
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUALITATIVO
 # =============================================================================
-
-rnk,score= calcularRanking(DS, 0.5)
-
 (I, "instagram")
 (M, "mathworld")
 (A, "aleatorio")
@@ -282,7 +271,6 @@ def ranking_P3(M,test):
     plt.title('Porcentaje de veces que una página fue mejor rankeada con el test ' + test) 
     plt.show()
 
-
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUANTITATIVO
 # =============================================================================
@@ -353,27 +341,8 @@ def graf_tiempo_tamaño():
     plt.legend()
    # Mostrar el gráfico
     plt.grid(True)
-    plt.show()  
-def graf_tiempo_tamaño2():
-    tamaño1, tiempo1= tiempo_ejecucion_tamaño_2(100,0.5)
-    tamaño2, tiempo2= tiempo_ejecucion_tamaño_2(100,0.25)
-# Crear el gráfico de dispersión con múltiples conjuntos de datos
-    plt.scatter(tamaño1,tiempo1, color='seagreen', label='p=0.5')
-    plt.scatter(tamaño2, tiempo2, color='darkseagreen', label='p=0.25')
-    plt.plot(tamaño1,tiempo1, color='darkgreen', linestyle='-')
-    plt.plot(tamaño2, tiempo2, color='forestgreen', linestyle='-')
+    plt.show() 
     
-# Añadir etiquetas y leyenda
-    plt.xlabel('dimensiones del grafo ')
-    plt.ylabel('tiempo de ejecucion tardado [s]')
-    plt.title('Tiempo de ejecucion del calculo del rankingpage segun el tamaño del grafo')
-    plt.legend()
-   # Mostrar el gráfico
-    plt.grid(True)
-    plt.show()
-    
-graf_tiempo_tamaño()
-
 def graf_tiempo_densidad():
     tiempo, nodos= tiempo_ejecucion_densidad (15,0.5)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
@@ -386,18 +355,6 @@ def graf_tiempo_densidad():
    # Mostrar el gráfico
     plt.grid(True)
     plt.show()    
-    
-def graf_tiempo_densidad2():
-    tiempo4, nodos4= tiempo_ejecucion_densidad (50,0.5)
-    plt.scatter(nodos4, tiempo4, color='mediumvioletred', label='tamaño=50*50,p=0.5')
-# Añadir etiquetas y leyenda
-    plt.xlabel('conexiones dentro del grafo ')
-    plt.ylabel('tiempo de ejecucion tardado [s]')
-    plt.title('Tiempo de ejecucion del calculo del rankingpage segun las conexiones entre paginas')
-    plt.legend()
-   # Mostrar el gráfico
-    plt.grid(True)
-    plt.show() 
 
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS TEST DOS ESTRELLAS
@@ -430,7 +387,7 @@ def comparacion_DS():
     plt.xlabel('Paginas del test dos estrellas')
     plt.ylabel('scores de las paguinas del test dos estrellas')
     plt.xticks(paginas)
-    plt.title('Comparacion de los puntajes obtenidos con el test Dos estrellas original y agregando 9 coonexiones a la pagina 1')
+    plt.title('Comparacion de los puntajes obtenidos con el test Dos estrellas original y agregando 9 conexiones a la pagina 1')
     plt.grid(True)
     plt.show()
     
@@ -451,9 +408,7 @@ Graf_scores(ninguno_conectado, "ninguno conectado")
 #todos conectados 1
 #la pagina i solo es linkeada y linkea a la pagina j
 
-
 #todos conectados 
-
 
 def todos_conectados ():
     W = np.zeros((20, 20))
@@ -477,27 +432,6 @@ def matriz_t2():
     W[15][10]=1
     return W
 
-m=  matriz_t2()
-
-#coparacion entre ninguno conectado y el otro ejemplo de todos conectados 
-def comparacion_tiempo_ejecucion(W, M, N): 
-    tiempo1 = tiempo_de_ejecucion (calcularRanking, W, 0.5)
-    tiempo2= tiempo_de_ejecucion (calcularRanking, M, 0.5)
-    tiempo3= tiempo_de_ejecucion (calcularRanking, N, 0.5)
-    tiempos=[tiempo1, tiempo2, tiempo3]
-    test= ["ninguno conectado", "todos conectados", "todos conectados 2"]
-    plt.scatter(test, tiempos, color='darkseagreen', label='tiempo de ejecucion tests')
-    # Añadir etiquetas y leyenda
-    plt.xlabel('tests ejecutaods')
-    plt.ylabel('tiempo de ejecucion tardado [s]')
-    plt.title('Tiempo de ejecucion del calculo del para los diferentes test')
-    plt.legend()
-    # Mostrar el gráfico
-    plt.grid(True)
-    plt.show()
-    
-comparacion_tiempo_ejecucion(ninguno_conectado, todos_conectados, tp)
-
 def experimento_cond(W):
 ## Calculo los valores de la condicion
     cond = []
@@ -520,16 +454,3 @@ def experimento_cond(W):
     
     # Mostrar el gráfico
     plt.show()
-
-
-experimento_cond(DS)
-
-
-######################################
-##dos estrellas
-dibujarGrafo(DS, 0.5)
-graf_rankingP2(DS, 'dos estrellas')
-
-##instagram
-dibujarGrafo(I, 0.5)
-graf_rankingP2(DS, 'dos estrellas')
