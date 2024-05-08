@@ -266,7 +266,7 @@ def ranking_P3(M,test):
             p.append(pagina)
     paleta = "Pastel1"
     # Crear el gráfico de torta
-    plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta)(range(len(porcentajes))), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
+    plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
     plt.title('Porcentaje de veces que una página fue mejor rankeada con el test ' + test) 
     plt.show()
 
