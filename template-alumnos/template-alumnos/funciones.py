@@ -343,10 +343,11 @@ def graf_tiempo_tamaño():
     plt.grid(True)
     plt.show() 
     
-def graf_tiempo_densidad():
-    tiempo, nodos= tiempo_ejecucion_densidad (15,0.5)
+def graf_tiempo_densidad(n):
+    tiempo, nodos= tiempo_ejecucion_densidad (n,0.5)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
-    plt.scatter(nodos,tiempo, color='palevioletred', label='tamaño=15*15,p=0.5')
+    size= str(n)
+    plt.scatter(nodos,tiempo, color='palevioletred', label=size+"*"+size+" ,p=0.5")
 # Añadir etiquetas y leyenda
     plt.xlabel('conexiones dentro del grafo ')
     plt.ylabel('tiempo de ejecucion tardado [s]')
