@@ -1,10 +1,22 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue May  7 20:17:06 2024
+
+autores: Natali Biasoni, Nadina Soler
+
+descripcion: En este archivo se encuentran las funciones para 
+                el TP1 de ALC dividido en funciones.
+"""
+
 import numpy as np
 import networkx as nx
 import scipy
 import matplotlib.pyplot as plt
 import time
+import random
+
 # =============================================================================
-# FUNCION PARA LEER EL ARCHIVO
+# FUNCION PARA LEER LOS ARCHIVOS
 # =============================================================================
 
 def leer_archivo(input_file_path):
@@ -21,6 +33,16 @@ def leer_archivo(input_file_path):
     f.close()
     
     return W
+
+# =============================================================================
+# IMPORTAMOS LOS ARCHIVOS
+# =============================================================================
+carpeta = "C:/Users/soler/Documents/Nari/faca/alc/ALC_tp1/template-alumnos/template-alumnos/tests/"
+I= leer_archivo(carpeta + "instagram_famosos_grafo.txt") 
+M= leer_archivo(carpeta + "mathworld_grafo.txt") 
+DS= leer_archivo(carpeta + "test_dosestrellas.txt") 
+A= leer_archivo(carpeta+ "test_aleatorio.txt")
+TS= leer_archivo(carpeta + "test_30_segundos.txt")
 
 # =============================================================================
 # FUNCIONES PARA DIBUJAR GRAFO
@@ -116,9 +138,6 @@ def calculo_k(fila_actual, divisor, iterador):
     return multiplicador
    
 
-from scipy.stats import rankdata
-
-
 def ranking(score):
     rnk = sorted(score) 
     return rnk
@@ -156,12 +175,6 @@ def obtenerMaximoRankingScore(M, p):
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUALITATIVO
 # =============================================================================
-carpeta = "/home/oem/Desktop/uni/alc/tests/"
-I= leer_archivo(carpeta + "instagram_famosos_grafo.txt") 
-M= leer_archivo(carpeta + "mathworld_grafo.txt") 
-DS= leer_archivo(carpeta + "test_dosestrellas.txt") 
-A= leer_archivo(carpeta+ "test_aleatorio.txt")
-TS= leer_archivo(carpeta + "test_30_segundos.txt")
 
 rnk,score= calcularRanking(DS, 0.5)
 
@@ -224,8 +237,6 @@ def Graf_MejoresPaginas_segunP (M, test):
     plt.ylim(-0.5, d - 0.5) 
     # Mostrar el gráfico
     plt.show()
-  
-
     
 def graf_rankingP2(M, test):  
     # Graficar quién fue la página mejor rankeada para cada p
@@ -424,7 +435,6 @@ Graf_scores(ninguno_conectado, "ninguno conectado")
 
 #todos conectados 1
 #la pagina i solo es linkeada y linkea a la pagina j
-import random
 
 
 def duplas(n):
@@ -497,9 +507,6 @@ def comparacion_tiempo_ejecucion(W, M, N):
     
 comparacion_tiempo_ejecucion(ninguno_conectado, todos_conectados1, td2)
 
-A = calculo_A(DS, 0.5)
-p = np.linspace(0, 1, 10)
-print(p)
 def experimento_cond(W):
 ## Calculo los valores de la condicion
     cond = []
@@ -512,14 +519,26 @@ def experimento_cond(W):
         ps.append(p)
         p-=0.05
 ## Armo el grafico
-    plt.plot(ps, cond) ##(valores de x, valores de y)
+    plt.plot(ps, cond, color='darkseagreen', marker = 'o') ##(valores de x, valores de y)
     
     # Etiquetar los ejes
     plt.xlabel('Valor de p')
-    plt.ylabel('Valores obtenidos')
+    plt.ylabel('Cond(A)')
+    plt.title('Numero de condicion en funcion del valor p')
+    plt.grid(True)
     
     # Mostrar el gráfico
     plt.show()
 
 
 experimento_cond(DS)
+
+
+######################################
+##dos estrellas
+dibujarGrafo(DS, 0.5)
+graf_rankingP2(DS, 'dos estrellas')
+
+##instagram
+dibujarGrafo(I, 0.5)
+graf_rankingP2(DS, 'dos estrellas')
