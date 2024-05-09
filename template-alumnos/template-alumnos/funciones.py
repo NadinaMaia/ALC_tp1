@@ -264,12 +264,12 @@ def ranking_P3(M,test):
         if porcentaje != 0:  # Excluir porcentajes de cero
             porcentajes.append(porcentaje)
             p.append(pagina)
-    paleta = "Pastel1"
     # Crear el gráfico de torta
-    plt.pie(porcentajes, labels=p, colors=plt.cm.get_cmap(paleta), autopct='%1.1f%%', wedgeprops={'linewidth': 2})
+    plt.pie(porcentajes, labels=p, autopct='%1.1f%%', wedgeprops={'linewidth': 2})
     plt.title('Porcentaje de veces que una página fue mejor rankeada con el test ' + test) 
     plt.show()
 
+ranking_P3(DS, "dosestrellas")
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUANTITATIVO
 # =============================================================================
@@ -307,7 +307,7 @@ def tiempo_ejecucion_tamaño_2 (n,p):
         i+=1
     return tamaños, tiempos
 
-def tiempo_ejecucion_densidad (n,p):
+def tiempo_ejecucion_densidad(n,p):
     W=  np.zeros((n, n))
     tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
     tiempos= []
@@ -343,7 +343,7 @@ def graf_tiempo_tamaño():
     plt.show() 
     
 def graf_tiempo_densidad(n):
-    tiempo, nodos= tiempo_ejecucion_densidad (n,0.5)
+    tiempo, nodos= tiempo_ejecucion_densidad(n,0.5)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
     size= str(n)
     plt.scatter(nodos,tiempo, color='palevioletred', label=size+"*"+size+" ,p=0.5")
@@ -356,7 +356,9 @@ def graf_tiempo_densidad(n):
     plt.grid(True)
     plt.show()    
 
-gr
+graf_tiempo_densidad(15)
+graf_tiempo_densidad(50)
+
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS TEST DOS ESTRELLAS
 # =============================================================================      
