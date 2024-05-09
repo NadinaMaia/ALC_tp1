@@ -269,7 +269,7 @@ def ranking_P3(M,test):
     plt.title('Porcentaje de veces que una página fue mejor rankeada con el test ' + test) 
     plt.show()
 
-ranking_P3(DS, "dosestrellas")
+
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUANTITATIVO
 # =============================================================================
@@ -356,8 +356,7 @@ def graf_tiempo_densidad(n):
     plt.grid(True)
     plt.show()    
 
-graf_tiempo_densidad(15)
-graf_tiempo_densidad(50)
+
 
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS TEST DOS ESTRELLAS
