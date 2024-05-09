@@ -189,8 +189,8 @@ def rankings_segunP(M):
         p= p-0.05
     return P, mejores_paginas
 
-def Graf_scores(W, nombre:str):
-    rnk, scores= calcularRanking(W, 0.5)
+def Graf_scores(W, nombre:str, p):
+    rnk, scores= calcularRanking(W, p)
     pagina= list(range(len(scores)))
     plt.figure(figsize=(10, 6))
     plt.scatter(pagina, scores, s=100, c=pagina, cmap='spring')
