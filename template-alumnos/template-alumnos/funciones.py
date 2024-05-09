@@ -356,6 +356,7 @@ def graf_tiempo_densidad(n):
     plt.grid(True)
     plt.show()    
 
+gr
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS TEST DOS ESTRELLAS
 # =============================================================================      
