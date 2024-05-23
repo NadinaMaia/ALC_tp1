@@ -36,7 +36,7 @@ def leer_archivo(input_file_path):
 # =============================================================================
 # IMPORTAMOS LOS ARCHIVOS
 # =============================================================================
-carpeta = "/home/oem/Descargas/template-alumnos/template-alumnos/tests/"
+carpeta = "./tests/"
 I= leer_archivo(carpeta + "instagram_famosos_grafo.txt") 
 M= leer_archivo(carpeta + "mathworld_grafo.txt") 
 DS= leer_archivo(carpeta + "test_dosestrellas.txt") 
@@ -173,7 +173,7 @@ def rankings_segunP(M):
     P = [] #guardo los distintos P
     mejores_paginas = [] #guardo las paginas mejores ranqueadas
     p= 0.95
-    while p >0:
+    while p > 0:
         P.append(p)
         mejor_pagina = [] #guardo las paginas mejores rankeadas con un P por si hay empate
         ranking, scores = calcularRanking(M, p)
@@ -181,12 +181,12 @@ def rankings_segunP(M):
         for j in range(len(scores)):
             score = scores[j]
             if score == maxScore:
-                m = j 
-                mejor_pagina.append(m)
-        mejores_paginas.append(int(mejor_pagina) +1) 
+                mejor_pagina.append(j)
         p= p-0.05
-        mejores_paginas = mejores_paginas
+        mejor_pagina = [x + 1 for x in mejor_pagina]
+        mejores_paginas.append(mejor_pagina)
     return P, mejores_paginas
+
 
 def Graf_scores(W, nombre:str, p):
     rnk, scores= calcularRanking(W, p)
@@ -214,9 +214,8 @@ def Graf_MejoresPaginas_segunP (M, test):
                 contador += 1
         Altura.append(contador)
     print(Altura)
-    paleta = "Pastel1"
     # Crear el gráfico de barras horizontales
-    plt.barh(paginas, Altura, color=plt.cm.get_cmap(paleta)(range(len(paginas))), edgecolor='black')
+    plt.barh(paginas, Altura, color='darkseagreen', edgecolor='black')
     # Agregar etiquetas y título
     plt.xlabel('Cantidad de veces que obtuvieron el mejor Score')
     plt.ylabel('Páginas')
@@ -235,12 +234,13 @@ def graf_rankingP2(M, test):
     y1 = []
     x = []
     # Recorrer los valores de p y las páginas mejor rankeadas
-    for m, paginas in enumerate(mejores_paginas):
+    for i in range(len(mejores_paginas)):
+        paginas = mejores_paginas[i]
         for pagina in paginas:
             y1.append(pagina)
-            x.append(P[m]) 
+            x.append(P[i]) 
     plt.figure(figsize=(10, 6))
-    plt.scatter(x, y1, s=100, color = "indigo")
+    plt.scatter(x, y1, s=100, color = "darkseagreen")
     plt.xlabel('P')
     plt.ylabel('Página Mejor Rankeada')
     plt.xticks(P)
@@ -248,7 +248,7 @@ def graf_rankingP2(M, test):
     plt.title('Página Mejor Rankeada según el P utilizado  el test ' + test)
     plt.grid(True)
     plt.show()  
-              
+          
     #grafico que me muestre el porcentaje de veces que una pagina fue la mejor rankeada variando el P
 def ranking_P3(M,test):
     P, mejores_paginas = rankings_segunP(M)
@@ -325,18 +325,16 @@ def tiempo_ejecucion_densidad(n,p):
                 conexiones+=1
                 nodos.append(conexiones)
     return nodos, tiempos
-     
-nodos, tiempos= tiempo_ejecucion_densidad(100,0.5)
 
 
 def graf_tiempo_tamaño():
     tamaño1, tiempo1= tiempo_de_ejecucion_tamaño(100, 0.5)
     tamaño2, tiempo2= tiempo_de_ejecucion_tamaño(100, 0.25)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
-    plt.scatter(tamaño1,tiempo1, color='seagreen', label='p=0.5')
+    plt.scatter(tamaño1,tiempo1, color='darkseagreen', label='p=0.5')
     plt.scatter(tamaño2, tiempo2, color='darkseagreen', label='p=0.25')
     plt.plot(tamaño1,tiempo1, color='darkgreen', linestyle='-')
-    plt.plot(tamaño2, tiempo2, color='forestgreen', linestyle='-')
+    plt.plot(tamaño2, tiempo2, color='darkseagreen', linestyle='-')
 # Añadir etiquetas y leyenda
     plt.xlabel('dimensiones del grafo ')
     plt.ylabel('tiempo de ejecucion tardado [s]')
@@ -350,7 +348,7 @@ def graf_tiempo_densidad(n):
     tiempo, nodos= tiempo_ejecucion_densidad(n,0.5)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
     size= str(n)
-    plt.scatter(nodos,tiempo, color='palevioletred', label=size+"*"+size+" ,p=0.5")
+    plt.scatter(nodos,tiempo, color='darkseagreen', label=size+"*"+size+" ,p=0.5")
 # Añadir etiquetas y leyenda
     plt.xlabel('conexiones dentro del grafo ')
     plt.ylabel('tiempo de ejecucion tardado [s]')
@@ -391,7 +389,7 @@ def comparacion_DS(p):
     rank, scoresW2= calcularRanking (W2, p)
     paginas = [1,2,3,4,5,6,7,8,9,10,11,12]
     plt.figure(figsize=(10, 6))
-    plt.scatter(paginas, scoresW, s=100, color='hotpink')
+    plt.scatter(paginas, scoresW, s=100, color= 'darkseagreen')
     plt.scatter(paginas, scoresW2, s=100,  color='darkseagreen')
     plt.xlabel('Paginas del test dos estrellas')
     plt.ylabel('scores de las paguinas del test dos estrellas')
