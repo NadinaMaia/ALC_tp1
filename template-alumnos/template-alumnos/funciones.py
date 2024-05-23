@@ -183,16 +183,16 @@ def rankings_segunP(M):
             if score == maxScore:
                 m = j 
                 mejor_pagina.append(m)
-        mejores_paginas.append(mejor_pagina)
+        mejores_paginas.append(int(mejor_pagina) +1) 
         p= p-0.05
-        mejores_paginas = mejores_paginas +1
+        mejores_paginas = mejores_paginas
     return P, mejores_paginas
 
 def Graf_scores(W, nombre:str, p):
     rnk, scores= calcularRanking(W, p)
     pagina= list(range(len(scores)))
     plt.figure(figsize=(10, 6))
-    plt.scatter(pagina, scores, s=100, c=pagina, color = 'seagreen')
+    plt.scatter(pagina, scores, s=100)
     plt.xlabel('paginas')
     plt.ylabel('puntaje')
     plt.xticks(pagina) 
@@ -200,6 +200,7 @@ def Graf_scores(W, nombre:str, p):
     plt.grid(True)
     plt.show()  
     
+
 def Graf_MejoresPaginas_segunP (M, test): 
     d = M.shape[0]
     paginas = list(range(d))
@@ -239,7 +240,7 @@ def graf_rankingP2(M, test):
             y1.append(pagina)
             x.append(P[m]) 
     plt.figure(figsize=(10, 6))
-    plt.scatter(x, y1, s=100, c=x, color = "indigo")
+    plt.scatter(x, y1, s=100, color = "indigo")
     plt.xlabel('P')
     plt.ylabel('Página Mejor Rankeada')
     plt.xticks(P)
@@ -365,26 +366,29 @@ def graf_tiempo_densidad(n):
 # FUNCIONES PRINCIPALES PARA ANALISIS TEST DOS ESTRELLAS
 # =============================================================================      
 
-def test_dos_estrellas ():
+def test_dos_estrellas (p):
     W= leer_archivo(carpeta + "test_dosestrellas.txt")
-    n= W.shape[0]
     contador=0
-    for j in range (1,n):
+    paginas= [1,2,3,4,8,9,10,11]
+    resto= [5,6,7]
+    for j in paginas:
         W[0][j]=1
         contador+=1
-        ranking, scores= calcularRanking(W,0.5)
+        ranking, scores= calcularRanking(W,p)
         maximoScore= np.max(scores)
         if scores[0]== maximoScore:
             print("se agregaron "+ str(contador)+" conexiones")
+            print(W)
             return contador, W
         else:
             continue
 
-def comparacion_DS():
+
+def comparacion_DS(p):
     W= leer_archivo(carpeta + "test_dosestrellas.txt")
-    contador, W2= test_dos_estrellas()
-    rnk, scoresW = calcularRanking (W, 0.5)
-    rank, scoresW2= calcularRanking (W2, 0.5)
+    contador, W2= test_dos_estrellas(p)
+    rnk, scoresW = calcularRanking (W, p)
+    rank, scoresW2= calcularRanking (W2, p)
     paginas = [1,2,3,4,5,6,7,8,9,10,11,12]
     plt.figure(figsize=(10, 6))
     plt.scatter(paginas, scoresW, s=100, color='hotpink')
@@ -392,9 +396,10 @@ def comparacion_DS():
     plt.xlabel('Paginas del test dos estrellas')
     plt.ylabel('scores de las paguinas del test dos estrellas')
     plt.xticks(paginas)
-    plt.title('Comparacion de los puntajes obtenidos con el test Dos estrellas original y agregando 9 conexiones a la pagina 1')
+    plt.title('Comparacion de los puntajes obtenidos con el test Dos estrellas original y agregando conexiones a la pagina 1')
     plt.grid(True)
     plt.show()
+
     
     
 # =============================================================================
