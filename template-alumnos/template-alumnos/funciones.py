@@ -307,6 +307,14 @@ def tiempo_ejecucion_tamaño_2 (n,p):
         i+=1
     return tamaños, tiempos
 
+def diferencia_tiempo(m, t): #listas con los tiempos de procesamiento y los diferentes tamaños/ conexiones
+    tp= t[0]
+    s= len(t)
+    tf= t[s-1]
+    deltaT=  tf-tp
+    print("la variacion en el tiempo de procesamiento fue de ", deltaT)
+
+
 def tiempo_ejecucion_densidad(n,p):
     W=  np.zeros((n, n))
     tiempo= tiempo_de_ejecucion(calcularRanking, W, p)
@@ -323,7 +331,11 @@ def tiempo_ejecucion_densidad(n,p):
                 tiempos.append(tiempo)
                 conexiones+=1
                 nodos.append(conexiones)
-    return tiempos, nodos
+    return nodos, tiempos
+tamaño, time= tiempo_de_ejecucion_tamaño (100,0.5)
+dtTamaño= diferencia_tiempo(tamaño, time)       
+nodos, tiempo= tiempo_ejecucion_densidad(15,0.5)
+dtDensidad= diferencia_tiempo(nodos, tiempo) 
 
 def graf_tiempo_tamaño():
     tamaño1, tiempo1= tiempo_de_ejecucion_tamaño(100, 0.5)
