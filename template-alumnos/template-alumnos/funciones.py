@@ -167,9 +167,7 @@ def obtenerMaximoRankingScore(M, p):
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUALITATIVO
 # =============================================================================
-(I, "instagram")
-(M, "mathworld")
-(A, "aleatorio")
+
 
 def rankings_segunP(M):
     P = [] #guardo los distintos P
@@ -187,13 +185,14 @@ def rankings_segunP(M):
                 mejor_pagina.append(m)
         mejores_paginas.append(mejor_pagina)
         p= p-0.05
+        mejores_paginas = mejores_paginas +1
     return P, mejores_paginas
 
 def Graf_scores(W, nombre:str, p):
     rnk, scores= calcularRanking(W, p)
     pagina= list(range(len(scores)))
     plt.figure(figsize=(10, 6))
-    plt.scatter(pagina, scores, s=100, c=pagina, cmap='spring')
+    plt.scatter(pagina, scores, s=100, c=pagina, color = 'seagreen')
     plt.xlabel('paginas')
     plt.ylabel('puntaje')
     plt.xticks(pagina) 
@@ -240,7 +239,7 @@ def graf_rankingP2(M, test):
             y1.append(pagina)
             x.append(P[m]) 
     plt.figure(figsize=(10, 6))
-    plt.scatter(x, y1, s=100, c=x, cmap='spring')
+    plt.scatter(x, y1, s=100, c=x, color = "indigo")
     plt.xlabel('P')
     plt.ylabel('Página Mejor Rankeada')
     plt.xticks(P)
@@ -307,13 +306,6 @@ def tiempo_ejecucion_tamaño_2 (n,p):
         i+=1
     return tamaños, tiempos
 
-def diferencia_tiempo(m, t): #listas con los tiempos de procesamiento y los diferentes tamaños/ conexiones
-    tp= t[0]
-    s= len(t)
-    tf= t[s-1]
-    deltaT=  tf-tp
-    print("la variacion en el tiempo de procesamiento fue de ", deltaT)
-
 
 def tiempo_ejecucion_densidad(n,p):
     W=  np.zeros((n, n))
@@ -332,10 +324,9 @@ def tiempo_ejecucion_densidad(n,p):
                 conexiones+=1
                 nodos.append(conexiones)
     return nodos, tiempos
-tamaño, time= tiempo_de_ejecucion_tamaño (100,0.5)
-dtTamaño= diferencia_tiempo(tamaño, time)       
-nodos, tiempo= tiempo_ejecucion_densidad(15,0.5)
-dtDensidad= diferencia_tiempo(nodos, tiempo) 
+     
+nodos, tiempos= tiempo_ejecucion_densidad(100,0.5)
+
 
 def graf_tiempo_tamaño():
     tamaño1, tiempo1= tiempo_de_ejecucion_tamaño(100, 0.5)
@@ -412,12 +403,7 @@ def comparacion_DS():
 #ninguno conectado
 ninguno_conectado= np.zeros((20, 20))
 rankingNingunoConectados, scoresNingunoConectados= calcularRanking (ninguno_conectado, 0.5)
-
-ranking_P3(ninguno_conectado, "ninguno conectado")
-graf_rankingP2(ninguno_conectado, "ninguno conectado")
-Graf_MejoresPaginas_segunP (ninguno_conectado, "ninguno conectado")
-dibujarGrafo(ninguno_conectado)
-Graf_scores(ninguno_conectado, "ninguno conectado")    
+ 
 
 #todos conectados 1
 #la pagina i solo es linkeada y linkea a la pagina j
