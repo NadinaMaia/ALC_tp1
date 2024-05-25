@@ -170,33 +170,39 @@ def obtenerMaximoRankingScore(M, p):
 
 
 def rankings_segunP(M):
-    P = [] #guardo los distintos P
-    mejores_paginas = [] #guardo las paginas mejores ranqueadas
-    p= 0.95
+    P = []  # Guardo los distintos valores de p
+    mejores_paginas = []  # Guardo las páginas mejor rankeadas
+    p = 0.95
+    
     while p > 0:
         P.append(p)
-        mejor_pagina = [] #guardo las paginas mejores rankeadas con un P por si hay empate
+        mejor_pagina = []  # Guardo las páginas mejor rankeadas con un p por si hay empate
         ranking, scores = calcularRanking(M, p)
+        
         maxScore = np.max(scores)
+    
         for j in range(len(scores)):
             score = scores[j]
-            if score == maxScore:
+            if (np.isclose(score, maxScore, atol= 0.0001))== True:
                 mejor_pagina.append(j)
-        p= p-0.05
-        mejor_pagina = [x + 1 for x in mejor_pagina]
+        
+        p -= 0.05
+        mejor_pagina = [x + 1 for x in mejor_pagina]  # Convertir a índice 1-based
         mejores_paginas.append(mejor_pagina)
+    
     return P, mejores_paginas
 
 
 def Graf_scores(W, nombre:str, p):
+    sp= str(p)
     rnk, scores= calcularRanking(W, p)
-    pagina= list(range(len(scores)))
+    pagina= list(range(1,len(scores)+1))
     plt.figure(figsize=(10, 6))
-    plt.scatter(pagina, scores, s=100)
+    plt.scatter(pagina, scores, s=100,color = 'hotpink')
     plt.xlabel('paginas')
     plt.ylabel('puntaje')
     plt.xticks(pagina) 
-    plt.title('puntaje de cada pagina del test ' + nombre)
+    plt.title('puntaje de cada pagina del test ' + nombre + ' utilizando p =' + sp )
     plt.grid(True)
     plt.show()  
     
@@ -226,7 +232,7 @@ def Graf_MejoresPaginas_segunP (M, test):
     # Mostrar el gráfico
     plt.show()
     
-def graf_rankingP2(M, test):  
+def graf_rankingP2(M, test): #matriz de conexiones, nombre del test 
     # Graficar quién fue la página mejor rankeada para cada p
     P, mejores_paginas = rankings_segunP(M)
     ylim= M.shape[0]
@@ -345,7 +351,7 @@ def graf_tiempo_tamaño():
     plt.show() 
     
 def graf_tiempo_densidad(n):
-    tiempo, nodos= tiempo_ejecucion_densidad(n,0.5)
+    nodos,tiempo= tiempo_ejecucion_densidad(n,0.5)
 # Crear el gráfico de dispersión con múltiples conjuntos de datos
     size= str(n)
     plt.scatter(nodos,tiempo, color='darkseagreen', label=size+"*"+size+" ,p=0.5")
@@ -389,7 +395,7 @@ def comparacion_DS(p):
     rank, scoresW2= calcularRanking (W2, p)
     paginas = [1,2,3,4,5,6,7,8,9,10,11,12]
     plt.figure(figsize=(10, 6))
-    plt.scatter(paginas, scoresW, s=100, color= 'darkseagreen')
+    plt.scatter(paginas, scoresW, s=100, color= 'hotpink')
     plt.scatter(paginas, scoresW2, s=100,  color='darkseagreen')
     plt.xlabel('Paginas del test dos estrellas')
     plt.ylabel('scores de las paguinas del test dos estrellas')
@@ -457,3 +463,5 @@ def experimento_cond(W):
     
     # Mostrar el gráfico
     plt.show()
+
+
