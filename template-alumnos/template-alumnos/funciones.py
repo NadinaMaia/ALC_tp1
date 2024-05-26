@@ -25,10 +25,10 @@ def leer_archivo(input_file_path):
     m = int(f.readline())
     W = np.zeros(shape=(n,n))
     for _ in range(m):
-    	line = f.readline()
-    	i = int(line.split()[0]) - 1
-    	j = int(line.split()[1]) - 1
-    	W[j,i] = 1.0
+        line = f.readline()
+        i = int(line.split()[0]) - 1
+        j = int(line.split()[1]) - 1
+        W[j,i] = 1.0
     f.close()
     
     return W
