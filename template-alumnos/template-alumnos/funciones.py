@@ -8,9 +8,9 @@ descripcion: En este archivo se encuentran las funciones para
                 el TP1 de ALC dividido en funciones.
 """
 import numpy as np
-import networkx as nx
-import scipy
-import matplotlib.pyplot as plt
+import networkx as nx # type: ignore
+import scipy # type: ignore
+import matplotlib.pyplot as plt # type: ignore
 import time
 import random
 
