@@ -387,6 +387,23 @@ def test_dos_estrellas (p):
         else:
             continue
 
+def test_ds_2 (p):
+    W= leer_archivo(carpeta + "test_dosestrellas.txt")
+    contador=1
+    l = W.shape[0]
+    W[0][6]=1
+    for j in range (0,l):
+        if j!=5 and j!=6 and j!=8:
+            W[0][j]=1
+            contador+=1
+            ranking, scores= calcularRanking(W,p)
+            maximoScore= np.max(scores)
+            if scores[0]== maximoScore:
+                print("se agregaron "+ str(contador)+" conexiones")
+                print(W)
+                return contador, W
+            else:
+                continue
 
 def comparacion_DS(p):
     W= leer_archivo(carpeta + "test_dosestrellas.txt")
@@ -404,6 +421,21 @@ def comparacion_DS(p):
     plt.grid(True)
     plt.show()
 
+def comparacion_DS2(p):
+    W= leer_archivo(carpeta + "test_dosestrellas.txt")
+    contador, W2= test_ds_2 (p)
+    rnk, scoresW = calcularRanking (W, p)
+    rank, scoresW2= calcularRanking (W2, p)
+    paginas = [1,2,3,4,5,6,7,8,9,10,11,12]
+    plt.figure(figsize=(10, 6))
+    plt.scatter(paginas, scoresW, s=100, color= 'hotpink')
+    plt.scatter(paginas, scoresW2, s=100,  color='darkseagreen')
+    plt.xlabel('Paginas del test dos estrellas')
+    plt.ylabel('scores de las paguinas del test dos estrellas')
+    plt.xticks(paginas)
+    plt.title('Comparacion de los puntajes obtenidos con el test Dos estrellas original y agregando conexiones a la pagina 1')
+    plt.grid(True)
+    plt.show()
     
     
 # =============================================================================
