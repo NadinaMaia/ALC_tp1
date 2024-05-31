@@ -132,8 +132,20 @@ def calculo_k(fila_actual, divisor, iterador):
     return multiplicador
    
 def ranking(score):
-    rnk = sorted(score) 
-    return rnk
+   sorted_indices = sorted(range(len(score)), key=lambda i: score[i], reverse=True)
+   
+   # Crear una lista para almacenar el ranking
+   rnk = [0] * len(score)
+   
+   rank = 1
+   for i in range(len(score)):
+        if i > 0 and (np.isclose(score[sorted_indices[i]],score[sorted_indices[i-1]]))== False:
+            rank += + 1
+        rnk[sorted_indices[i]] = rank
+    
+   return rnk
+  
+
             
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA EL CALCULO DE RANKING
@@ -179,13 +191,9 @@ def rankings_segunP(M):
         mejor_pagina = []  # Guardo las páginas mejor rankeadas con un p por si hay empate
         ranking, scores = calcularRanking(M, p)
         
-        maxScore = np.max(scores)
-    
         for j in range(len(scores)):
-            score = scores[j]
-            if (np.isclose(score, maxScore, atol= 0.0001))== True:
+            if ranking[j]==1:
                 mejor_pagina.append(j)
-        
         p -= 0.05
         mejor_pagina = [x + 1 for x in mejor_pagina]  # Convertir a índice 1-based
         mejores_paginas.append(mejor_pagina)
@@ -276,6 +284,54 @@ def ranking_P3(M,test):
     plt.show()
 
 
+def variacionScore_p(M):
+    rnk, scr= calcularRanking(M, 0.5)
+    primeras3=[]
+    j=0
+    for i in range (0, len(rnk)):
+        if rnk[i]== 1:
+            primeras3.append(i)
+    while len(primeras3)<3:
+        if rnk[j]== 2 or rnk[j]==3:
+            primeras3.append(j)
+        j+=1
+    a= primeras3[0]
+    b= primeras3[1]
+    c= primeras3[2]    
+ 
+    P = []  # Guardo los distintos valores de p
+    scr_a=[]
+    scr_b=[]
+    scr_c=[]
+    p = 0.95
+    
+    while p > 0:
+        P.append(p)
+        ranking, scores = calcularRanking(M, p)
+        scr_a.append(scores[a])
+        scr_b.append(scores[b])
+        scr_c.append(scores[c])
+        p -= 0.05
+    a+=1
+    b+=1
+    c+=1
+    return P, a, scr_a, b, scr_b, c, scr_c
+
+def graf_variacionScore(M, nombre):
+    X,a, scr_a, b, scr_b, c, scr_c= variacionScore_p(M)
+    # Gráfico de líneas
+    fig, ax = plt.subplots(figsize=(12,8))
+    fig.size= (8,8)
+    ax.plot(X, scr_a, marker = "o", color= 'hotpink', label = "pagina"+ str(a))
+    ax.plot(X, scr_b, marker = "o",color = 'darkseagreen', label = "pagina"+ str(b))
+    ax.plot(X, scr_c, marker = "o", color= 'indigo', label = "pagina"+ str(c))
+    ax.legend()
+    plt.xlabel('P')
+    plt.ylabel('puntaje')
+    plt.xticks(X) 
+    plt.title('puntaje las  3 paginas mejores rankeadas en el test ' + nombre + ' variando el P' )
+    plt.grid(True)
+    plt.show()  
 # =============================================================================
 # FUNCIONES PRINCIPALES PARA ANALISIS CUANTITATIVO
 # =============================================================================
